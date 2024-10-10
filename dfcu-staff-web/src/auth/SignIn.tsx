@@ -1,5 +1,5 @@
 import { FormEvent } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
 import {
     Avatar,
@@ -16,13 +16,17 @@ import {
 import {authService} from "../services/authentication.service";
 
 const SignIn = () => {
+    const navigate=useNavigate();
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
         var username = formData.get("username") as string;
         var password = formData.get("password") as string;
-        authService.login(username,password).then(user=>console.log(user)).catch(e=>console.log(e));
+        authService.login(username,password).then(user=>{
+            console.log(user);
+            navigate("/");
+        }).catch(e=>console.log(e));
         // const data = Array.from(formData.entries()).reduce(
         //     (acc, [key, value]) => {
         //         acc[key] = value;

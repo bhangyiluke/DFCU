@@ -17,9 +17,7 @@ import org.hibernate.type.descriptor.jdbc.NumericJdbcType;
 import org.hibernate.type.internal.NamedBasicTypeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 public class DatePrefixedSequenceIdGenerator extends SequenceStyleGenerator {
     private static final Logger logger = LoggerFactory.getLogger(DatePrefixedSequenceIdGenerator.class);
     public static final String DATE_FORMAT_PARAMETER = "dateFormat";
@@ -34,10 +32,11 @@ public class DatePrefixedSequenceIdGenerator extends SequenceStyleGenerator {
     private String format;
 
     @Override
+//     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+//     @Transactional
     public Serializable generate(SharedSessionContractImplementor session,
             Object object) throws HibernateException {
         String val = String.format(this.format, LocalDate.now(), super.generate(session, object)).replace(" ", "0");
-        // logger.info("The resulting format: " + this.format);
         // logger.info("The resulting value: " + val);
         return Long.valueOf(val);
     }

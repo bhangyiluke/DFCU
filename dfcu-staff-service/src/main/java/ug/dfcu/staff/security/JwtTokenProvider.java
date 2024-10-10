@@ -34,10 +34,6 @@ public class JwtTokenProvider {
     public String generateToken(Authentication authentication) {
 
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        String scope = authentication.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
 
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -48,10 +44,10 @@ public class JwtTokenProvider {
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(getSignInKey(),SignatureAlgorithm.HS512)
-                .claim("role", scope)
-                .claim("username", userPrincipal.getUsername())
-                .claim("fullname", userPrincipal.getName())
-                .claim("email", userPrincipal.getEmail())
+                // .claim("role", scope)
+                // .claim("username", userPrincipal.getUsername())
+                // .claim("fullname", userPrincipal.getName())
+                // .claim("email", userPrincipal.getEmail())
                 .compact();
     }
 

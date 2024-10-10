@@ -1,5 +1,5 @@
 import { RouterProvider } from "react-router-dom";
-import LayoutContextProvider from "./contexts/LayoutContext";
+import LayoutContextProvider from "./context/LayoutContext";
 import router from "./router/router";
 
 function App() {

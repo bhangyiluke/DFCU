@@ -2,21 +2,25 @@ import { BehaviorSubject } from "rxjs";
 import { apiUrl } from "../config";
 import handleResponse from "../helpers/handle-response";
 
-const currentUserSubject = new BehaviorSubject(
-    JSON.parse(localStorage.getItem("currentUser") || "{}"),
-);
+const user = localStorage.getItem("currentUser")
+    ? JSON.parse(localStorage.getItem("currentUser") || "")
+    : undefined;
+
+// alert(JSON.stringify(user));
+const currentUserSubject = new BehaviorSubject(user);
 
 const logout = () => {
     localStorage.removeItem("currentUser");
     currentUserSubject.next(null);
 };
 
-const login = (username: string, password: string) => {
+const login = (usernameOrEmail: string, password: string) => {
     const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ usernameOrEmail, password }),
     };
+
     return fetch(`${apiUrl}/auth/signin`, requestOptions)
         .then(handleResponse)
         .then((user) => {

@@ -1,26 +1,19 @@
-import { Navigate, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { authService } from "../services/authentication.service";
+import { useEffect } from "react";
 
-export const PrivateRoute = ({ component: Component, roles, ...rest }: any) => (
-    <Route
-        {...rest}
-        render={(props: any) => {
-            const user = authService.currentUserValue;
-            if (!user) {
-                // Redirect to the login page if the user is not logged in
-                return (
-                    <Navigate
-                        to={{ pathname: "/login" }}
-                        state={{ from: props.location }}
-                    />
-                );
-            }
-            // Check if the route has roles restriction and return t
-            if (roles && !roles.includes(user.role)) {
-                return <Navigate to={{ pathname: "/" }} />;
-            }
-
-            return <Component {...props} />;
-        }}
-    />
-);
+export const PrivateRoute = ({ component: Component, roles, ...rest }: any) => {
+    const navigate = useNavigate();
+    const user = authService.currentUserValue;
+    useEffect(()=>{
+        if (!user) {
+            navigate("/login");
+        }
+        // Check if the route has roles restriction and return t
+        if (roles && !roles.includes(user.role)) {
+            navigate("/");
+        }
+    },[user]);
+    
+    return <Component {...rest} />;
+};

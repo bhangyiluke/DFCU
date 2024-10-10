@@ -1,4 +1,4 @@
-import { Login } from "@mui/icons-material";
+import { CardMembership } from "@mui/icons-material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import DnsIcon from "@mui/icons-material/Dns";
 import InfoIcon from "@mui/icons-material/Info";
@@ -13,6 +13,11 @@ const navigation = [
                 path: "/",
                 title: "Dashboard",
                 icon: <DashboardIcon />,
+            },
+            {
+                path: "/employees",
+                title: "All Employees",
+                icon: <CardMembership />,
             },
             {
                 title: "Settings",

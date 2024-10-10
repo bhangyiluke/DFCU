@@ -3,6 +3,8 @@ package ug.dfcu.staff.controller;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,10 +44,12 @@ import ug.dfcu.staff.payload.SignUpRequest;
 import ug.dfcu.staff.repository.RoleRepository;
 import ug.dfcu.staff.repository.UserRepository;
 import ug.dfcu.staff.security.JwtTokenProvider;
+import ug.dfcu.staff.security.UserPrincipal;
 import ug.dfcu.staff.service.OtpService;
 
 @Validated
 @RestController
+// @CrossOrigin(origins = "*")
 @RequestMapping("/api/auth")
 public class AuthController {
 
@@ -66,7 +72,7 @@ public class AuthController {
     @Autowired
     OtpService otpService;
 
-@Operation(summary="User Login API",description = "This API allows systems users login and obtain JWT token for authorisation")
+    @Operation(summary = "User Login API", description = "This API allows systems users login and obtain JWT token for authorisation")
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -78,10 +84,16 @@ public class AuthController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+
+        // List<String> scope = authentication.getAuthorities()
+        //         .stream()
+        //         .map(GrantedAuthority::getAuthority)
+        //         .collect(Collectors.toList());
+        UserPrincipal user=(UserPrincipal)authentication.getPrincipal();
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt,user));
     }
 
-    @Operation(summary="User Registration API",description = "This API allows systems users register their login accounts")
+    @Operation(summary = "User Registration API", description = "This API allows systems users register their login accounts")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userRepository.existsByUsername(signUpRequest.getUsername())) {
@@ -112,7 +124,7 @@ public class AuthController {
         return ResponseEntity.created(location).body(new ApiResponse(true, "User registered successfully"));
     }
 
-    @Operation(summary="OTP Request API",description = "This API allows systems users request One-Time-Password which will be sent to their provided email")
+    @Operation(summary = "OTP Request API", description = "This API allows systems users request One-Time-Password which will be sent to their provided email")
     @GetMapping("/request-otp/{email}")
     public ResponseEntity<?> requestOneTimePassword(@PathVariable String email)
             throws JsonProcessingException, UnsupportedEncodingException, MessagingException {
@@ -124,17 +136,17 @@ public class AuthController {
         return ResponseEntity.ok().body(new ApiResponse(true, message));
     }
 
-    @Operation(summary="OTP Verification API",description = "This API allows the system to verify One-Time-Password from the first time staff")
+    @Operation(summary = "OTP Verification API", description = "This API allows the system to verify One-Time-Password from the first time staff")
     @GetMapping("/verify-otp")
     public ResponseEntity<?> verifyOneTimePassword(@RequestParam String otp) {
-        boolean success=false;
+        boolean success = false;
         String message = "One-Time-Password(OTP) successfully verified";
         try {
-            success = otpService.verifyToken(otp);  
+            success = otpService.verifyToken(otp);
         } catch (ResourceNotFoundException e) {
-            // e.printStackTrace(); 
-            logger.warn("One-Time-Password(OTP) provided was not found");           
-        }        
+            // e.printStackTrace();
+            logger.warn("One-Time-Password(OTP) provided was not found");
+        }
         if (!success) {
             message = "Wrong One-Time-Password(OTP) provided. Please provide the correct OTP";
             return ResponseEntity.badRequest().body(new ApiResponse(success, message));

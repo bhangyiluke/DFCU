@@ -1,0 +1,1 @@
+tar --exclude='*/.git/**' --exclude='*.tar.gz' --exclude='*/target/**' --exclude='*/node_modules/**' --exclude='*/build/**' -cvf ../dfcu-staff-service-$(date +%Y%m%d-%H%M%S).tar.gz .

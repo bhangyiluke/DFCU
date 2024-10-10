@@ -1,0 +1,8 @@
+--===============03/10/2024 DFCU Interview App========================
+1. Add Audit on the clases
+2. Add code for puting mysql db
+3. Add soft delete features(isDeleted)
+4. Add isNew flag to optimize inserts and updates
+NOTE: Note that, the database hit in the above filter is optional. 
+	You could also encode the user’s username and roles inside JWT claims and create the UserDetails object by parsing those claims from the JWT. 
+	That would avoid the database hit

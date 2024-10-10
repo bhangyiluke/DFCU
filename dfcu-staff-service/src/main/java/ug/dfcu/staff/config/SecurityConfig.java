@@ -44,7 +44,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(crf -> crf.disable())
-                .cors(c -> c.disable())
+                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth.requestMatchers(permited).permitAll()
                         .anyRequest().authenticated())
                 .userDetailsService(customUserDetailsService)

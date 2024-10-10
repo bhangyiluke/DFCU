@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import { useLayoutContext } from "@/contexts/LayoutContext";
+import { useLayoutContext } from "@/context/LayoutContext";
 import useIsMobile from "@/hooks/useIsMobile";
 import Header from "./Header";
 import Sidebar from "./Sidebar/Sidebar";

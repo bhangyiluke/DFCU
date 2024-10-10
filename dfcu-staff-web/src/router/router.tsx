@@ -1,8 +1,34 @@
-import { createBrowserRouter } from "react-router-dom";
-import MainLayout from "@/layout/MainLayout/MainLayout";
-import { About, Dashboard, Settings } from "@/pages";
-import SignIn from "@/auth/SignIn";
+import { Navigate, createBrowserRouter, useNavigate } from "react-router-dom";
+import { PrivateRoute } from "@/auth/PrivateRoute";
 import Register from "@/auth/Register";
+import SignIn from "@/auth/SignIn";
+import MainLayout from "@/layout/MainLayout/MainLayout";
+import {
+    About,
+    Dashboard,
+    Employee,
+    EmployeeList,
+    ErrorPage,
+    Settings,
+} from "@/pages";
+import { authService } from "@/services/authentication.service";
+
+// const getCurrentUser = () =>{
+//     const navigate = useNavigate();
+//     const user = authService.currentUserValue;
+//     if (!user) {
+//         navigate("/login");
+//     }
+//     // Check if the route has roles restriction and return t
+//     // if (roles && !roles.includes(user.role)) {
+//     //     navigate("/");
+//     // }
+//     return authService.currentUser.subscribe((u) => ({
+//         user: u,
+//         isAdmin: u && u.role === "ADMIN",
+//     }));
+// }
+
 
 const router = createBrowserRouter([
     {
@@ -10,16 +36,34 @@ const router = createBrowserRouter([
         element: <SignIn />,
     },
     {
+        path: "/logout",
+        action: async () => {
+            authService.logout();
+            return <Navigate to="/login" />;
+        },
+    },
+    {
         path: "/register",
         element: <Register />,
     },
     {
+        // Use the loader to preload the user details if already logged in
         path: "/",
-        element: <MainLayout />,
+        element: <PrivateRoute component={MainLayout} />,
+        // loader: getCurrentUser,
+        errorElement: <ErrorPage />,
         children: [
             {
                 index: true,
                 element: <Dashboard />,
+            },
+            {
+                path: "/employees",
+                element: <EmployeeList />,
+            },
+            {
+                path: "/employee/:id",
+                element: <Employee />,
             },
             {
                 path: "/about",
@@ -29,17 +73,21 @@ const router = createBrowserRouter([
                 path: "/settings",
                 children: [
                     {
-                        path: "/settings/users",
+                        path: "users",
                         element: <Settings.Users />,
                     },
                     {
-                        path: "/settings/system",
+                        path: "system",
                         element: <Settings.System />,
                     },
                 ],
             },
+            {
+                path: "*",
+                element: <h1>PAGE NOT FOUND</h1>,
+            }
         ],
-    },
+    }
 ]);
 
 export default router;

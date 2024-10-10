@@ -1,9 +1,9 @@
-import { Card, CardContent, Stack, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { PageLayout } from "./Component";
 
-const About = () => {
+const Employee = () => {
     return (
-        <PageLayout title="About">
+        <PageLayout title="Edit employee">
             <Typography paragraph>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Ab magnam ullam a recusandae aperiam cupiditate
@@ -23,5 +23,6 @@ const About = () => {
             </Typography>
         </PageLayout>
     );
-};
-export default About;
+}
+
+export default Employee;

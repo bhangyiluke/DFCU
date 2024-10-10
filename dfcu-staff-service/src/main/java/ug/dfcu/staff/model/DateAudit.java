@@ -1,7 +1,6 @@
 package ug.dfcu.staff.model;
 
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Calendar;
 
 import org.springframework.data.annotation.CreatedDate;

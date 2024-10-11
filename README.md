@@ -78,3 +78,7 @@ sudo apt update -y && sudo apt upgrade -y
    ``
    java -jar dfcu-staff-servise-0.0.1-SNAPSHOT.jar --server.port=80
    ``
+   the above command will run the back-end service on a different command.
+   ``
+   You cam also host this application using apache tomcat, Oracle Weblogic, Wildfly or any other java compliant web server
+   ``

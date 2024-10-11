@@ -24,7 +24,13 @@ sudo apt update -y && sudo apt upgrade -y
    OpenJDK Runtime Environment (build 21.0.4+7-Ubuntu-1ubuntu224.04)
    OpenJDK 64-Bit Server VM (build 21.0.4+7-Ubuntu-1ubuntu224.04, mixed mode, sharing)
    ```
-2. Installing
+   You can follow [How to Install Java 21 on Ubuntu 24.04](https://www.rosehosting.com/blog/how-to-install-java-21-on-ubuntu-24-04/) to install the Oracle Java version.
+   On a system with multiple Java versions, you can change the active version very easily. To do that, execute the following command:
+   ```
+   sudo update-alternatives --config java
+   ```
+2. Installing Apache Maven
+   ```sudo apt-get install maven -y```
    The confirmation results will look like below
    ```
    Apache Maven 3.8.7
@@ -33,5 +39,6 @@ sudo apt update -y && sudo apt upgrade -y
    Default locale: en_US, platform encoding: UTF-8
    OS name: "linux", version: "6.8.0-45-generic", arch: "amd64", family: "unix"
    ```
+
 ## Front-End
 ## Back-End

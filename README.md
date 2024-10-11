@@ -44,6 +44,7 @@ sudo apt update -y && sudo apt upgrade -y
    OS name: "linux", version: "6.8.0-45-generic", arch: "amd64", family: "unix"
    ```
 4. Installing Node
+   
    To install dependecies we run the command:
    ```
    sudo apt install curl apt-transport-https ca-certificates gnupg
@@ -54,7 +55,26 @@ sudo apt update -y && sudo apt upgrade -y
    ```
    The verification output will look like below
    ```
-   node -v
+   #node -v
+   v18.19.1
    ```
 ## Front-End
 ## Back-End
+1. Open the folder ``dfcu-staff-service`` in your favourite IDE. I used VSCode.
+2. In the command prompt, change directory to ``` dfcu-staff-service ``` and run the following commands.
+3. To comoile the project run the command:
+   ```
+   mvn compile
+   ```
+   After the compile command completes and there are no errors, run the command bellow to create a runnable war file.
+   ```
+   mvn package
+   ```
+   this will generate the runnable jar file at the path ``target/dfcu-staff-servise-0.0.1-SNAPSHOT.jar``. This file can be run as a standalone application using the command:
+   ```
+   java -jar dfcu-staff-servise-0.0.1-SNAPSHOT.jar
+   ```
+   and it will run the imbedded apache server on port 9090. You can also provide a different port number as a parameter to the ``java -jar`` as follows:
+   ``
+   java -jar dfcu-staff-servise-0.0.1-SNAPSHOT.jar --server.port=80
+   ``

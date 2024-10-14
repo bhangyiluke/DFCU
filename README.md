@@ -64,16 +64,27 @@ sudo apt update -y && sudo apt upgrade -y
    git clone https://github.com/bhangyiluke/DFCU.git .
    ls -lah
    ```
+   From the above commands, you will get folder layout like below:
+   
+   ``
+   total 32K
+   drwxr-xr-x  5 bhangyi bhangyi 4.0K Oct 11 09:19  .
+   drwxr-x--- 13 bhangyi bhangyi 4.0K Oct 14 06:40  ..
+   -rw-rw-r--  1 bhangyi bhangyi  182 Oct 11 09:19  backup.sh
+   drwxr-xr-x  7 bhangyi bhangyi 4.0K Oct 11 14:07  dfcu-staff-service
+   drwxr-xr-x  5 bhangyi bhangyi 4.0K Oct 11 09:19  dfcu-staff-web
+   drwxr-xr-x  8 bhangyi bhangyi 4.0K Oct 11 09:21  .git
+   -rw-rw-r--  1 bhangyi bhangyi 1.4K Oct 11 09:18  README.md
+   ``
    You should see output with two folders namely ``dfcu-staff-web`` for the front-end and ``dfcu-staff-service`` for the backend service.
-## Front-End
 ## Back-End
 1. Open the folder ``dfcu-staff-service`` in your favourite IDE. I used VSCode.
 2. In the command prompt, change directory to ``` dfcu-staff-service ``` and run the following commands.
-3. To comoile the project run the command:
+   To comoile the project run the command:
    ```
    mvn compile
    ```
-   After the compile command completes and there are no errors, run the command bellow to create a runnable war file.
+   After the compile command completes and there are no errors, run the command bellow to create a runnable jar file.
    ```
    mvn package
    ```
@@ -82,7 +93,28 @@ sudo apt update -y && sudo apt upgrade -y
    java -jar dfcu-staff-servise-0.0.1-SNAPSHOT.jar
    ```
    and it will run the imbedded apache server on port 9090. You can also provide a different port number as a parameter to the ``java -jar`` as follows:
+   
    ``
    java -jar dfcu-staff-servise-0.0.1-SNAPSHOT.jar --server.port=80
    ``
+   
    the above command will run the back-end service on port 80. You cam also host this application using apache tomcat, Oracle Weblogic, Wildfly or any other java compliant web server.
+## Front-End
+   On a command prompt, change directory into the project folder ``dfcu-staff-web`` and run the following commands;
+   ```
+   npm i --force
+   ```
+   This will install the npm packages for the front-end project and save then in the ``node_modules`` folder relative to the project.
+   ```
+   npm run dev
+   ```
+   this will run the project on the development url at ``http://localhost:5173/`` which can be accessed at the browser for testing.
+   
+   To create a production package, run the command below;
+   ```
+   npm run build
+   ```
+   which will create the production version in the folder ``publish`` including scripts, images and css files. Copy the content of this folder to the root of any static content web server like apache, weblogic, Nginx, tomcat, wilfly and note the URL where its running.
+
+   Copy the URL and update the CORS value ``ug.dfcu.staff.cors.allowedOrigins=http://localhost:5173`` in the backend service and rebuld the package.
+

@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import ug.dfcu.staff.model.Role;
 import ug.dfcu.staff.model.RoleName;
+import ug.dfcu.staff.model.User;
 import ug.dfcu.staff.repository.RoleRepository;
 
 @Component
@@ -19,6 +21,9 @@ public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
@@ -33,9 +38,14 @@ public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
             optionalRole.ifPresentOrElse(System.out::println, () -> {
                 Role roleToCreate = new Role(roleName);
                 roleRepository.save(roleToCreate);
-                // roleRepository.save(roleToCreate);
+                if(roleToCreate.getName() == RoleName.ADMIN){
+                    //Seed admin user
+                    User user = new User("Administrator", "admin","admin@dfcu.ug", "admin123");
+                    user.setPassword(passwordEncoder.encode(user.getPassword()));
+                    user.setRoles(java.util.Collections.singleton(roleToCreate));
+                }
             });
-        });
+        });       
 
     }
 }

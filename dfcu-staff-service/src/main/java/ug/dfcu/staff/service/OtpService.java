@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+// import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -66,7 +66,7 @@ public class OtpService {
                 .orElse(new OtpCode());
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MILLISECOND, otpExpirationInMs);
+        cal.add(Calendar.MINUTE, otpExpirationInMs);
         oneTimePassword.setOtpExpiryTime(cal);
         oneTimePassword.setEmail(email);
         oneTimePassword.setOneTimePassword(encorded);
@@ -109,7 +109,7 @@ public class OtpService {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
-        Integer expiry = otpExpirationInMs / 60 / 60;
+        Integer expiry = otpExpirationInMs ;// 60 / 60;
 
         helper.setFrom(supportMail, supportName);
         helper.setTo(email);

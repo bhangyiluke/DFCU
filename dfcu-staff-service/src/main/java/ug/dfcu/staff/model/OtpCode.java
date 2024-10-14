@@ -8,7 +8,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.util.Calendar;
-
 import lombok.Data;
 
 @Data
@@ -28,16 +27,16 @@ public class OtpCode extends DateAudit{
     @Column(name = "otp_expiry_time")
     private Calendar otpExpiryTime;
 
-    public OtpCode() {
+    // public OtpCode() {
 
-    }
+    // }
 
-    public OtpCode(String email, String oneTimePassword, Integer expiration) {
-        this.email = email;
-        this.oneTimePassword = oneTimePassword;
+    // public OtpCode(String email, String oneTimePassword, Integer expiration) {
+    //     this.email = email;
+    //     this.oneTimePassword = oneTimePassword;
 
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MILLISECOND, expiration);
-        this.otpExpiryTime = cal;
-    }
+    //     Calendar cal = Calendar.getInstance();
+    //     cal.add(Calendar.MILLISECOND, expiration);
+    //     this.otpExpiryTime = cal;
+    // }
 }

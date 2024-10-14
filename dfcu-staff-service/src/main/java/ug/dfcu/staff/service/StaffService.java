@@ -48,9 +48,11 @@ public class StaffService {
                 .surname(request.getSurname())
                 .otherNames(request.getOtherNames())
                 .dateOfBirth(request.getDateOfBirth())
-                .idPhoto(file.getBytes())
+                // .idPhoto(file.getBytes())
                 .build();
-
+        if(file!=null){
+            staff.setIdPhoto(file.getBytes());
+        }
         staffRepository.save(staff);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/staff/retrieval/{employeeNo}")
@@ -78,12 +80,15 @@ public class StaffService {
         Staff staff = staffRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee", "employee id", id));
         var file = patch.getIdPhoto();
-        staff.setDateOfBirth(patch.getDateOfBirth());
+        if(patch.getDateOfBirth()!=null){
+           staff.setDateOfBirth(patch.getDateOfBirth()); 
+        }
+        
         if (file != null) {
             staff.setIdPhoto(file.getBytes());
         }
         // updateMapper.updateValues(staff,patch);
-        // staffRepository.save(staff);
+        staffRepository.save(staff);
         return ResponseEntity.ok(staff);
     }
 

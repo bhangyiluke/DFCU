@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,19 +62,33 @@ public class OtpService {
         // TODO: First use the OTP without encording it
         String encorded = otp;//passwordEncoder.encode(otp);
         // Check if the user has an old OTP and repalce it
-        // OtpCode oneTimePassword = otpRepository.findByEmail(email)
-        //         .orElse(new OtpCode(email, encorded, otpExpirationInMs));
-        otpRepository.deleteByEmail(email);
-        OtpCode oneTimePassword = new OtpCode(email, encorded, otpExpirationInMs);
+        OtpCode oneTimePassword = otpRepository.findByEmail(email)
+                .orElse(new OtpCode());
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MILLISECOND, otpExpirationInMs);
+        oneTimePassword.setOtpExpiryTime(cal);
+        oneTimePassword.setEmail(email);
+        oneTimePassword.setOneTimePassword(encorded);
+        // otpRepository.deleteByEmail(email);
+        // OtpCode oneTimePassword = new OtpCode(email, encorded, otpExpirationInMs);
+
         otpRepository.save(oneTimePassword);
-        sendTokenEmail(email, otp);
-        logger.info(String.format("User otp generated: %s", otp));
+        try{
+            sendTokenEmail(email, otp);
+        }catch(MailException e){
+            logger.info("**********");
+            logger.info(String.format("User requested otp: %s", otp));
+            logger.info("**********");
+            logger.error(e.getLocalizedMessage(), e);
+        }       
+
     }
 
     public boolean verifyToken(String token) throws ResourceNotFoundException {
         // TODO: First use the OTP without encording it
         String encorded = token;//passwordEncoder.encode(token);
-        logger.info("Encorded OTP: "+encorded);
+        // logger.info("Encorded OTP: "+encorded);
         OtpCode oneTimePassword = otpRepository.findByOneTimePassword(encorded).orElseThrow(
                 () -> new ResourceNotFoundException("One Time Password", "token", token));
         return checkTokenExpiry(oneTimePassword);
@@ -82,7 +97,6 @@ public class OtpService {
     private boolean checkTokenExpiry(OtpCode oneTimePassword) {
         try {
             logger.info("OTP expired? :- "+!Calendar.getInstance().before(oneTimePassword.getOtpExpiryTime()));
-            // logger.info(new ObjectMapper().writeValueAsString(oneTimePassword));
             logger.info("");
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -112,6 +126,6 @@ public class OtpService {
         helper.setSubject(subject);
         helper.setText(content, true);
         // TODO: Unblock this to facilitate sending actual mail
-        // mailSender.send(message);
+        mailSender.send(message);
     }
 }

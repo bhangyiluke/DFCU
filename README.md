@@ -130,5 +130,17 @@ sudo apt update -y && sudo apt upgrade -y
    Change the above details according to the driver specifications from the driver documentation of the provider.
    Specify the driver in the ``pom.xml`` on the root folder. Currently we have the drivers for ``H2`` and ``MySQL`` databases.
    ### Updating SMTP Settings
-   To update details of the SMTP details to send the registration token to the employee, update the section under the comment ``# Setting for SMTP mail sender`` in the ``src/main/resources/application.proparties`` as follows. When in debug mode and an email failed to be sent, the token will written under the log between ``**********`` marks. This will not show in the other running modes and when you are in production mode.
+   To update details of the SMTP details to send the registration token to the employee, update the section under the comment ``# Setting for SMTP mail sender`` in the ``src/main/resources/application.proparties`` as follows. 
+   
+   ```
+   spring.mail.host=smtp.gmail.com
+   spring.mail.host.username=codejava.net@gmail.com   
+   spring.mail.host.password=your_email_password
+   spring.mail.host.port=587
+   spring.mail.host.properties.mail.smtp.auth=true
+   spring.mail.host.properties.mail.smtp.starttls.enable=true
+   ug.dfcu.staff.support.email=support@dfcu.ug
+   ug.dfcu.staff.support.name=Staff Support
+   ```
+   When in debug mode and an email failed to be sent, the token will written under the log between ``**********`` marks. This will not show in the other running modes and when you are in production mode.
 

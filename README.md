@@ -58,6 +58,13 @@ sudo apt update -y && sudo apt upgrade -y
    #node -v
    v18.19.1
    ```
+## Downloading the source code
+   To download the source code, create a folder e.g ``bhangyi`` open your command prompt and cd into this folder and run the git clone command below:
+   ```
+   git clone https://github.com/bhangyiluke/DFCU.git .
+   ls -lah
+   ```
+   You should see output with two folders namely ``dfcu-staff-web`` for the front-end and ``dfcu-staff-service`` for the backend service.
 ## Front-End
 ## Back-End
 1. Open the folder ``dfcu-staff-service`` in your favourite IDE. I used VSCode.
@@ -78,7 +85,4 @@ sudo apt update -y && sudo apt upgrade -y
    ``
    java -jar dfcu-staff-servise-0.0.1-SNAPSHOT.jar --server.port=80
    ``
-   the above command will run the back-end service on a different command.
-   ``
-   You cam also host this application using apache tomcat, Oracle Weblogic, Wildfly or any other java compliant web server
-   ``
+   the above command will run the back-end service on port 80. You cam also host this application using apache tomcat, Oracle Weblogic, Wildfly or any other java compliant web server.

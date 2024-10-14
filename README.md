@@ -99,6 +99,8 @@ sudo apt update -y && sudo apt upgrade -y
    
    the above command will run the back-end service on port 80. You cam also host this application using apache tomcat, Oracle Weblogic, Wildfly or any other java compliant web server.
    use the server URL to update ``VITE_API_URL`` in the .env file on the root of ``dfcu-staff-web`` for the address to api url.
+   ### OpenAPI Documentation
+   The API documentation will be accessed at  http://localhost:9090/swagger-ui for the swagger UI documentation and at http://localhost:9090/api-docs for the json documentation.
 ## Front-End
    On a command prompt, change directory into the project folder ``dfcu-staff-web`` and run the following commands;
    ```

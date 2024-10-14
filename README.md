@@ -62,20 +62,19 @@ sudo apt update -y && sudo apt upgrade -y
    To download the source code, create a folder e.g ``bhangyi`` open your command prompt and cd into this folder and run the git clone command below:
    ```
    git clone https://github.com/bhangyiluke/DFCU.git .
+   ```
+   then run the command below to confirm the structure
+   ```
    ls -lah
    ```
    From the above commands, you will get folder layout like below:
    
-   ``
-   total 32K
-   drwxr-xr-x  5 bhangyi bhangyi 4.0K Oct 11 09:19  .
-   drwxr-x--- 13 bhangyi bhangyi 4.0K Oct 14 06:40  ..
-   -rw-rw-r--  1 bhangyi bhangyi  182 Oct 11 09:19  backup.sh
+   ```
+   ---
    drwxr-xr-x  7 bhangyi bhangyi 4.0K Oct 11 14:07  dfcu-staff-service
    drwxr-xr-x  5 bhangyi bhangyi 4.0K Oct 11 09:19  dfcu-staff-web
-   drwxr-xr-x  8 bhangyi bhangyi 4.0K Oct 11 09:21  .git
-   -rw-rw-r--  1 bhangyi bhangyi 1.4K Oct 11 09:18  README.md
-   ``
+   ---
+   ```
    You should see output with two folders namely ``dfcu-staff-web`` for the front-end and ``dfcu-staff-service`` for the backend service.
 ## Back-End
 1. Open the folder ``dfcu-staff-service`` in your favourite IDE. I used VSCode.
@@ -94,11 +93,12 @@ sudo apt update -y && sudo apt upgrade -y
    ```
    and it will run the imbedded apache server on port 9090. You can also provide a different port number as a parameter to the ``java -jar`` as follows:
    
-   ``
+   ```
    java -jar dfcu-staff-servise-0.0.1-SNAPSHOT.jar --server.port=80
-   ``
+   ```
    
    the above command will run the back-end service on port 80. You cam also host this application using apache tomcat, Oracle Weblogic, Wildfly or any other java compliant web server.
+   use the server URL to update ``VITE_API_URL`` in the .env file on the root of ``dfcu-staff-web`` for the address to api url.
 ## Front-End
    On a command prompt, change directory into the project folder ``dfcu-staff-web`` and run the following commands;
    ```
@@ -114,7 +114,21 @@ sudo apt update -y && sudo apt upgrade -y
    ```
    npm run build
    ```
-   which will create the production version in the folder ``publish`` including scripts, images and css files. Copy the content of this folder to the root of any static content web server like apache, weblogic, Nginx, tomcat, wilfly and note the URL where its running.
+   which will create the production version in the folder ``publish`` including scripts, images and css files. Copy the content of this folder to the root of any static content web server like apache, weblogic,     Nginx, tomcat, wilfly and note the URL where its running.
 
-   Copy the URL and update the CORS value ``ug.dfcu.staff.cors.allowedOrigins=http://localhost:5173`` in the backend service and rebuld the package.
+   Copy the URL and update the CORS value ``ug.dfcu.staff.cors.allowedOrigins=http://localhost:5173`` from the ``src/main/resources/application.proparties`` in the backend service with this new URL and rebuld the ``dfcu-staff-servise-0.0.1-SNAPSHOT.jar`` package to update the server. Restart the web server or the stop and start the jar to reflect the change.
+   ### Uncomment for MySQL Database
+   For testing, the system has been run on Java H2 database which does not require installation of any server software and its management console can be access on ``/h2-console`` relative to the URL of the backend server. e.g ``http://localhost:9090/h2-console``
+
+   To connect to another database, like MySQL, comment and update the details in the ``src/main/resources/application.proparties`` file under the comment ``# Uncomment for MySQL Database`` as below;
+   ```
+   # spring.datasource.url= jdbc:mysql://localhost:3306/dfcu_staff
+   # spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+   # spring.datasource.username=root
+   # spring.datasource.password=
+   ```
+   Change the above details according to the driver specifications from the driver documentation of the provider.
+   Specify the driver in the ``pom.xml`` on the root folder. Currently we have the drivers for ``H2`` and ``MySQL`` databases.
+   ### Updating SMTP Settings
+   To update details of the SMTP details to send the registration token to the employee, update the section under the comment ``# Setting for SMTP mail sender`` in the ``src/main/resources/application.proparties`` as follows. When in debug mode and an email failed to be sent, the token will written under the log between ``**********`` marks. This will not show in the other running modes and when you are in production mode.
 

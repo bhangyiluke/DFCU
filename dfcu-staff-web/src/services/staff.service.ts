@@ -13,11 +13,11 @@ const updateStaff = (id: any = undefined, patch: any) => {
     );
 };
 
-const registerStaff = (data: any) => {
+const registerStaff = (data: FormData) => {
     const requestOptions = Object({
         method: "POST",
         headers: authHeader(),
-        body: JSON.stringify(data),
+        body: data,
     });
     return fetch(`${apiUrl}/staff/register`, requestOptions).then(
         handleResponse,

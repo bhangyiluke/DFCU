@@ -1,0 +1,54 @@
+import { createContext, PropsWithChildren, SetStateAction, useState } from "react";
+
+type RegisterType = {
+    user: {
+        username?: String,
+        email?: String,
+        password?: String,
+        confirmPassword?: String,
+        birthdate?: Date,
+        bio?: String,
+        website?: String,
+        acceptTerms?: false,
+        newsletter?: false,
+        token:string
+    },
+    errors?: {
+        email?: string,
+        token?:string
+    },
+    verified?: boolean,
+    token?: boolean
+};
+
+const defaultValue: RegisterType = {
+    user: {
+        username: "bhangyiluke",
+        email: "bhangyiluke@gmail.com",
+        password: "bhangyiluke",
+        confirmPassword: "bhangyiluke",
+        birthdate: new Date(),
+        bio: "bhangyiluke",
+        website: "bhangyiluke",
+        acceptTerms: false,
+        newsletter: false,
+        token:""
+    },
+    errors: {
+        email: ""
+    },
+    verified: false,
+    token: false
+};
+
+type StateType = { state: RegisterType, setState?: React.Dispatch<SetStateAction<RegisterType>> };
+
+export const RegisterContext = createContext<StateType>({ state: defaultValue});
+
+export default ({ children }: PropsWithChildren) => {
+    const [state, setState] = useState<RegisterType>(defaultValue);
+    return <RegisterContext.Provider value={{ state, setState }}>
+        {children}
+    </RegisterContext.Provider>
+
+}

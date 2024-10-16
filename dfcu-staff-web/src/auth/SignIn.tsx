@@ -13,20 +13,20 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import {authService} from "../services/authentication.service";
+import { authService } from "../services/authentication.service";
 
 const SignIn = () => {
-    const navigate=useNavigate();
+    const navigate = useNavigate();
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
         var username = formData.get("username") as string;
         var password = formData.get("password") as string;
-        authService.login(username,password).then(user=>{
+        authService.login(username, password).then(user => {
             console.log(user);
             navigate("/");
-        }).catch(e=>console.log(e));
+        }).catch(e => console.log(e));
         // const data = Array.from(formData.entries()).reduce(
         //     (acc, [key, value]) => {
         //         acc[key] = value;

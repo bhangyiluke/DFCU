@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@emotion/styled": "^11.13.0",
+    "@mui/styled-engine": "^6.1.4",
+    "@mui/x-date-pickers": "^7.20.0",
+    "force": "^0.0.3"
+  }
+}

@@ -8,11 +8,8 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { ImageRounded } from "@mui/icons-material";
 import { RegisterContext } from "@/context/RegisterContext";
 
-const anchorOrigin:SnackbarOrigin = { vertical: 'bottom', horizontal: 'right' };
-
 export default () => {
     // const [fileName, setFileName] = useState();
-    const [open, setOpen] = useState(false);
     const { state, setState } = useContext(RegisterContext);
     const [data, setData] = useState<{
         fileName?: string,
@@ -20,23 +17,7 @@ export default () => {
         loading?: boolean
     }>();
 
-    const handleClick = () => {
-        setOpen(true);
-    };
 
-    const handleClose = (
-        event: React.SyntheticEvent | Event,
-        reason?: SnackbarCloseReason,
-    ) => {
-        if (reason === 'clickaway') {
-            return;
-        }
-        setOpen(false);
-    };
-
-    useEffect(() => {
-        handleClick();
-    }, [state.response]);
 
     const handleFileChanged = (e: any) => {
         var file = e.target.files[0];
@@ -52,8 +33,6 @@ export default () => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
-        // var username = formData.get("username") as string;
-        // var password = formData.get("password") as string;
         staffService.registerStaff(formData).then(data => {
             console.log("staffService.registerStaff =>", data);
             setData(old => ({ ...old, loading: false }));
@@ -119,27 +98,7 @@ export default () => {
                         disabled={data?.loading}
                     > Submit </Button>
                 </Grid>
-            </Grid>
-            <Snackbar open={open && state.response?.success} autoHideDuration={6000} onClose={handleClose} anchorOrigin={anchorOrigin}>
-                <Alert
-                    onClose={handleClose}
-                    severity="success"
-                    variant="filled"
-                    sx={{ width: '100%' }}
-                >
-                    {state.response?.message}
-                </Alert>
-            </Snackbar>
-            <Snackbar open={open && !state.response?.success} autoHideDuration={6000} onClose={handleClose} anchorOrigin={anchorOrigin}>
-                <Alert
-                    onClose={handleClose}
-                    severity="error"
-                    variant="filled"
-                    sx={{ width: '100%' }}
-                >
-                    {state.response?.message}
-                </Alert>
-            </Snackbar>
+            </Grid>            
         </Box>
     );
 }

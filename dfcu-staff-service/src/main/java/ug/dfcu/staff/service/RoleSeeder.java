@@ -14,6 +14,7 @@ import ug.dfcu.staff.model.Role;
 import ug.dfcu.staff.model.RoleName;
 import ug.dfcu.staff.model.User;
 import ug.dfcu.staff.repository.RoleRepository;
+import ug.dfcu.staff.repository.UserRepository;
 
 @Component
 public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
@@ -21,6 +22,9 @@ public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -40,9 +44,12 @@ public class RoleSeeder implements ApplicationListener<ContextRefreshedEvent> {
                 roleRepository.save(roleToCreate);
                 if(roleToCreate.getName() == RoleName.ADMIN){
                     //Seed admin user
+                    logger.info("Now creating admin user with role - "+roleToCreate.getName());
                     User user = new User("Administrator", "admin","admin@dfcu.ug", "admin123");
                     user.setPassword(passwordEncoder.encode(user.getPassword()));
                     user.setRoles(java.util.Collections.singleton(roleToCreate));
+                    userRepository.save(user);
+                    logger.info("User admin created with id - "+user.getId());
                 }
             });
         });       

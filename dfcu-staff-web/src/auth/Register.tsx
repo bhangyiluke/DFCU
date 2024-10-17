@@ -41,7 +41,7 @@ const Register = () => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <RegisterContext>
                 <Container maxWidth="sm">
-                    <Paper elevation={8} sx={{ marginTop: 8, padding: 2 }}>
+                    <Paper elevation={8} sx={{ my: 8, padding: 2 }}>
                         <Avatar
                             sx={{
                                 mx: "auto",

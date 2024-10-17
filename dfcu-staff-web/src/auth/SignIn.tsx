@@ -2,6 +2,7 @@ import { FormEvent, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
 import {
+    Alert,
     Avatar,
     Box,
     Button,
@@ -10,24 +11,36 @@ import {
     FormControlLabel,
     Grid,
     Paper,
+    Snackbar,
+    SnackbarOrigin,
     TextField,
     Typography,
 } from "@mui/material";
 import { authService } from "../services/authentication.service";
 
+const anchorOrigin: SnackbarOrigin = {
+    vertical: "bottom",
+    horizontal: "right",
+};
+
 const SignIn = () => {
     const navigate = useNavigate();
+
     const [error, setError] = useState();
+
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
         var username = formData.get("username") as string;
         var password = formData.get("password") as string;
-        authService.login(username, password).then(user => {
-            console.log(user);
-            navigate("/");
-        }).catch(e => console.log(e));
+        authService
+            .login(username, password)
+            .then((user) => {
+                console.log(user);
+                navigate("/");
+            })
+            .catch((e) => setError(e));
         // const data = Array.from(formData.entries()).reduce(
         //     (acc, [key, value]) => {
         //         acc[key] = value;
@@ -114,6 +127,22 @@ const SignIn = () => {
                     </Grid>
                 </Grid>
             </Paper>
+            <Snackbar
+                sx={{ maxWidth: "sm" }}
+                open={!!error}
+                autoHideDuration={6000}
+                onClose={()=>setError(undefined)}
+                anchorOrigin={anchorOrigin}
+            >
+                <Alert
+                    onClose={()=>setError(undefined)}
+                    severity="error"
+                    variant="filled"
+                    sx={{ width: "100%" }}
+                >
+                    {error}
+                </Alert>
+            </Snackbar>
         </Container>
     );
 };

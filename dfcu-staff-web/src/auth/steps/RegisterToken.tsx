@@ -23,6 +23,7 @@ export default () => {
         const formData = new FormData(form);
         var token = formData.get("token") as string;
 
+        console.log("authService.verifyOtp =>", token);      
         token && setData(old => ({...old, loading: true }));
         token && authService.verifyOtp(token).then(data => {
             console.log("authService.verifyOtp =>", data);            
@@ -35,7 +36,7 @@ export default () => {
     }
 
     return (
-        <Grid container spacing={2}>
+        <Grid component="form" onSubmit={handleSubmit} container spacing={2}>
             <Grid item xs={12}>
                 <TextField
                     placeholder='Enter the token'
@@ -55,7 +56,6 @@ export default () => {
                     color="primary"
                     size="large" sx={{ m: "auto" }}
                     fullWidth
-                    onClick={handleSubmit}
                     startIcon={data?.loading ? <CircularProgress color="inherit" size={20}/> : <SendIcon />}
                     disabled={data?.loading}
                 > Send </Button>

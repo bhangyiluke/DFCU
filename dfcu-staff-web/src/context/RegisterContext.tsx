@@ -13,12 +13,15 @@ type RegisterType = {
         newsletter?: false,
         token:string
     },
+    activeStep: number,
     errors?: {
         email?: string,
         token?:string
     },
-    verified?: boolean,
-    token?: boolean
+    response?:{
+        success:boolean,
+        message:string;
+    }
 };
 
 const defaultValue: RegisterType = {
@@ -34,11 +37,7 @@ const defaultValue: RegisterType = {
         newsletter: false,
         token:""
     },
-    errors: {
-        email: ""
-    },
-    verified: false,
-    token: false
+    activeStep: 0
 };
 
 type StateType = { state: RegisterType, setState?: React.Dispatch<SetStateAction<RegisterType>> };

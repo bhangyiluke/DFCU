@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { LockOutlined } from "@mui/icons-material";
 import {
@@ -17,6 +17,7 @@ import { authService } from "../services/authentication.service";
 
 const SignIn = () => {
     const navigate = useNavigate();
+    const [error, setError] = useState();
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
@@ -50,7 +51,7 @@ const SignIn = () => {
                     <LockOutlined />
                 </Avatar>
                 <Typography
-                    component="h1"
+                    component="h3"
                     variant="h5"
                     sx={{ textAlign: "center" }}
                 >

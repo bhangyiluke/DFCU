@@ -1,13 +1,15 @@
 import { RegisterContext } from "@/context/RegisterContext";
-import { Button, Grid, TextField } from "@mui/material";
+import { Button, CircularProgress, Grid, TextField } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { authService } from "@/services/authentication.service";
 
 export default () => {
-    // const { state, setState } = useContext(RegisterContext);
+    const { state, setState } = useContext(RegisterContext);
     const [data, setData] = useState<{
         token?: string,
-        error?: string
+        error?: string,
+        loading?: boolean
     }>();
 
     const handleChange = (e: any) => {
@@ -16,25 +18,34 @@ export default () => {
 
     }
 
-    const handleSubmit =()=>{
-        setData({error:"An error occured when validating the token"})
+    const updateResponse = (data: any) => {
+        setState && setState(old => ({ ...old, response: data, activeStep: data.success ? (old.activeStep || 0) + 1 : old.activeStep }));
     }
-    // console.log("Form Load", state);
+
+    const handleSubmit = () => {
+        setData(old => ({ old, loading: true }));
+        data?.token && authService.verifyOtp(data?.token).then(data => {
+            console.log("authService.verifyOtp =>", data);            
+            setData(old => ({ old, loading: false }));
+            updateResponse(data);
+        }).catch(e => {            
+            setData(old => ({...old, loading: false }));
+            updateResponse({success:false,message:e});
+        });
+    }
+    // console.log("Register Token => ", state);
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <TextField
-                    placeholder='Verify the token'
+                    placeholder='Enter the token'
                     name='token'
                     label='Token'
                     value={data?.token}
                     onChange={handleChange}
                     variant='outlined'
                     margin='normal'
-                    InputLabelProps={{
-                        shrink: true
-                    }}
                     error={!!data?.error}
                     helperText={!!data?.error && data?.error}
                     required
@@ -48,7 +59,9 @@ export default () => {
                     size="large" sx={{ m: "auto" }}
                     fullWidth
                     onClick={handleSubmit}
-                > <SendIcon /> Send </Button>
+                    startIcon={data?.loading ? <CircularProgress color="inherit" size={20}/> : <SendIcon />}
+                    disabled={data?.loading}
+                > Send </Button>
             </Grid>
         </Grid>
     );

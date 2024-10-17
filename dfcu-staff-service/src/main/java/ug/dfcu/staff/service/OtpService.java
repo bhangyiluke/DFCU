@@ -126,6 +126,6 @@ public class OtpService {
         helper.setSubject(subject);
         helper.setText(content, true);
         // TODO: Unblock this to facilitate sending actual mail
-        mailSender.send(message);
+        // mailSender.send(message);
     }
 }

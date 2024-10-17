@@ -48,10 +48,30 @@ const register = (username: string, password: string) => {
         });
 };
 
+const requestOtp = (email: string) => {
+    const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    };
+    return fetch(`${apiUrl}/auth/request-otp/${email}`,requestOptions)
+        .then(handleResponse);
+}
+
+const verifyOtp = (otp: string) => {
+    const requestOptions = {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+    };
+    return fetch(`${apiUrl}/auth/verify-otp?otp=${otp}`,requestOptions)
+        .then(handleResponse);
+}
+
 export const authService = {
     login,
     logout,
     register,
+    requestOtp,
+    verifyOtp,
     currentUser: currentUserSubject.asObservable(),
     get currentUserValue() {
         return currentUserSubject.value;

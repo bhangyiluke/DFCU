@@ -14,7 +14,7 @@ const handleResponse = (response: any) => {
             return Promise.reject(error);
         }
 
-        return data;
+        return Promise.resolve(data);
     });
 };
 

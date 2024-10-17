@@ -4,53 +4,77 @@ import {
     Container,
     Grid,
     Paper,
+    Typography,
 } from "@mui/material";
-import RegisterInitial from "./steps/RegisterInitial";
-import RegisterContext, { RegisterContext as RegisterState } from "@/context/RegisterContext";
+import RegisterContext from "@/context/RegisterContext";
 import Completed from "./steps/Completed";
-import RegisterToken from "./steps/RegisterToken";
-import RegisterDetails from "./steps/RegisterDetails";
-import { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import RegisterSteps from "./steps/RegisterSteps";
 
 const Register = () => {
-    // const { state, setState } = useContext(RegisterState);
+
+    // const [open, setOpen] = useState(false);
+
+    // const handleClick = () => {
+    //     setOpen(true);
+    // };
+
+    // const handleClose = (
+    //     event: React.SyntheticEvent | Event,
+    //     reason?: SnackbarCloseReason,
+    // ) => {
+    //     if (reason === 'clickaway') {
+    //         return;
+    //     }
+    //     setOpen(false);
+    // };
+
+    // useEffect(() => {
+    //     handleClick();
+    // }, [state.response]);
+
+    // console.log("Register => ", state);
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <RegisterContext>
-            <Container maxWidth="sm">
-                <Paper elevation={8} sx={{ marginTop: 8, padding: 2 }}>
-                    <Avatar
-                        sx={{
-                            mx: "auto",
-                            textAlign: "center",
-                            bgcolor: "primary.main",
-                            mb: 1,
-                        }}
+            <RegisterContext>
+                <Container maxWidth="sm">
+                    <Paper elevation={8} sx={{ marginTop: 8, padding: 2 }}>
+                        <Avatar
+                            sx={{
+                                mx: "auto",
+                                textAlign: "center",
+                                bgcolor: "primary.main",
+                                mb: 1,
+                            }}
 
-                    >
-                    </Avatar>
-                    {/* <RegisterInitial /> */}
-                    {/* <RegisterToken/> */}
-                    <RegisterDetails/>
-                    {/* <Completed/>  */}
-                    <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
-                        <Grid item>
-                            <Button
-                                component={RouterLink}
-                                to="/login"
-                                size="small"
-                            >
-                                Back to login
-                            </Button>
+                        >
+                        </Avatar>
+                        <Typography
+                            component="h3"
+                            variant="h5"
+                            sx={{ textAlign: "center" }}
+                        >
+                            Register
+                        </Typography>
+                        <Completed />
+                        <RegisterSteps />
+                        <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
+                            <Grid item>
+                                <Button
+                                    component={RouterLink}
+                                    to="/login"
+                                    size="small"
+                                >
+                                    Back to login
+                                </Button>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Paper>
-            </Container>
-        </RegisterContext>
+                    </Paper>
+                </Container>
+            </RegisterContext>
         </LocalizationProvider>
     );
 };

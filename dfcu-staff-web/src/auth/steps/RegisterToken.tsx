@@ -23,10 +23,10 @@ export default () => {
         const formData = new FormData(form);
         var token = formData.get("token") as string;
 
-        console.log("authService.verifyOtp =>", token);      
+        // console.log("authService.verifyOtp =>", token);      
         token && setData(old => ({...old, loading: true }));
         token && authService.verifyOtp(token).then(data => {
-            console.log("authService.verifyOtp =>", data);            
+            // console.log("authService.verifyOtp =>", data);            
             setData(old => ({...old, loading: false }));
             updateResponse(data);
         }).catch(e => {            

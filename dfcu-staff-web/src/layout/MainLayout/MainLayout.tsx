@@ -6,13 +6,15 @@ import useIsMobile from "@/hooks/useIsMobile";
 import Header from "./Header";
 import Sidebar from "./Sidebar/Sidebar";
 import { SIDEBAR_WIDTH } from "./constants";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function MainLayout() {
     const { sidebarOpen } = useLayoutContext();
     const isMobile = useIsMobile();
 
     return (
-        <>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Sidebar />
             <Box
                 sx={{
@@ -40,6 +42,6 @@ export default function MainLayout() {
                     <Outlet />
                 </Box>
             </Box>
-        </>
+        </LocalizationProvider>
     );
 }

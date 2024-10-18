@@ -26,14 +26,15 @@ export default () => {
 
         email && setData(old => ({ old, loading: true }));
         email && authService.requestOtp(email).then(data => {
-            console.log("authService.requestOtp =>", data);
+            // console.log("authService.requestOtp =>", data);
             // Add the api Response to the Context state for navigation purposes;            
             setData(old => ({ ...old, loading: false }));
             updateResponse(data);
-        }).catch(e => {
-            console.log(e);
+        }).catch(e => {            
+            var message=(e.response && e.response.message)||e.message||e;
+            // console.error(message);
             setData(old => ({ ...old, loading: false }));
-            updateResponse({ success: false, message: e });
+            updateResponse({ success: false, message: message});
         });
     }
 

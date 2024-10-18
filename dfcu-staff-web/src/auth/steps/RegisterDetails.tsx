@@ -33,8 +33,12 @@ export default () => {
         e.preventDefault();
         const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
+        
+        const file=formData.get("idPhoto");
+        console.log(file);
+
         staffService.registerStaff(formData).then(data => {
-            console.log("staffService.registerStaff =>", data);
+            // console.log("staffService.registerStaff =>", data);
             setData(old => ({ ...old, loading: false }));
             updateResponse(data);
         }).catch(e => {
@@ -45,7 +49,7 @@ export default () => {
     };
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <Grid container spacing={1}>
+            <Grid container>
                 <Grid item xs={12}>
                     <TextField
                         name='surname'
@@ -84,7 +88,7 @@ export default () => {
                     <Button variant="outlined" component="label" color="primary" fullWidth>
                         {" "}
                         <ImageRounded /> {data?.fileName || "Upload a photo"}
-                        <input type="file" accept="images/**" onChange={handleFileChanged} hidden />
+                        <input type="file" name="idPhoto" accept="images/**" onChange={handleFileChanged} hidden />
                     </Button>
                 </Grid>
                 <Grid item xs={12}>

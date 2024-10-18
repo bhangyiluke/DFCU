@@ -70,9 +70,7 @@ public class OtpService {
         oneTimePassword.setOtpExpiryTime(cal);
         oneTimePassword.setEmail(email);
         oneTimePassword.setOneTimePassword(encorded);
-        // otpRepository.deleteByEmail(email);
-        // OtpCode oneTimePassword = new OtpCode(email, encorded, otpExpirationInMs);
-
+        
         otpRepository.save(oneTimePassword);
         try{
             sendTokenEmail(email, otp);

@@ -15,28 +15,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import RegisterSteps from "./steps/RegisterSteps";
 
 const Register = () => {
-
-    // const [open, setOpen] = useState(false);
-
-    // const handleClick = () => {
-    //     setOpen(true);
-    // };
-
-    // const handleClose = (
-    //     event: React.SyntheticEvent | Event,
-    //     reason?: SnackbarCloseReason,
-    // ) => {
-    //     if (reason === 'clickaway') {
-    //         return;
-    //     }
-    //     setOpen(false);
-    // };
-
-    // useEffect(() => {
-    //     handleClick();
-    // }, [state.response]);
-
-    // console.log("Register => ", state);
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <RegisterContext>

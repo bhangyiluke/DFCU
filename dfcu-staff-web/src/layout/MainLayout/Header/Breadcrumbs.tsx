@@ -39,11 +39,11 @@ const Breadcrumbs = () => {
 
                 return last || !link.linkable ? (
                     <Typography color="inherit" key={to}>
-                        {link.title}
+                        {link?.title}
                     </Typography>
                 ) : (
                     <Link underline="hover" color="inherit" href={to} key={to}>
-                        {link.title}
+                        {link?.title}
                     </Link>
                 );
             })}

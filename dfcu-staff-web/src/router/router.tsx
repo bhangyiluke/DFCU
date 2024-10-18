@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter, useNavigate } from "react-router-dom";
+import { Navigate, createBrowserRouter } from "react-router-dom";
 import { PrivateRoute } from "@/auth/PrivateRoute";
 import Register from "@/auth/Register";
 import SignIn from "@/auth/SignIn";
@@ -6,7 +6,6 @@ import MainLayout from "@/layout/MainLayout/MainLayout";
 import {
     About,
     Dashboard,
-    Employee,
     EmployeeList,
     ErrorPage,
     Settings,
@@ -37,7 +36,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/logout",
-        action: async () => {
+        action: () => {
             authService.logout();
             return <Navigate to="/login" />;
         },
@@ -60,10 +59,6 @@ const router = createBrowserRouter([
             {
                 path: "/employees",
                 element: <EmployeeList />,
-            },
-            {
-                path: "/employee/:id",
-                element: <Employee />,
             },
             {
                 path: "/about",

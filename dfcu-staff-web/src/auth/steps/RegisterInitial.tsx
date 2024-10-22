@@ -2,7 +2,6 @@ import { RegisterContext } from "@/context/RegisterContext";
 import { Button, CircularProgress, Grid, TextField } from "@mui/material";
 import SendIcon from '@mui/icons-material/Send';
 import { FormEvent, useContext, useState } from "react";
-import { staffService } from "@/services/staff.service";
 import { authService } from "@/services/authentication.service";
 
 export default () => {

@@ -1,4 +1,4 @@
-import { writeFile, appendFile } from "fs/promises";
+// import { writeFile, appendFile } from "fs/promises";
 
 // Read access token from Environment
 const STORYBLOK_ACCESS_TOKEN = import.meta.env.STORYBLOK_ACCESS_TOKEN;
@@ -130,9 +130,13 @@ const apiUrl = `https://api.storyblok.com/v2/cdn/stories?token=${STORYBLOK_ACCES
 //const apiUrl = `http://localhost:3000?token=${STORYBLOK_ACCESS_TOKEN}&version=${STORYBLOK_VERSION}`;
 
 const stories = fetchAllDataInParallel(apiUrl, 25,7);
-
+/*
+*
+* TODO: Unblock below to create the file
+*
+*/
 // Create an empty file (or overwrite if it exists) before appending
-await writeFile('stories.json', '[', 'utf8'); // Start the JSON array
+/* await writeFile('stories.json', '[', 'utf8'); // Start the JSON array
 let i = 0;
 for await (const story of stories) {
   i++;
@@ -146,4 +150,6 @@ for await (const story of stories) {
 }
 // Close the JSON array in the file
 await appendFile('stories.json', ']', 'utf8'); // End the JSON array
+
 console.log(`Total Stories: ${i}`);
+*/

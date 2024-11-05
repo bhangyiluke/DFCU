@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, SetStateAction, useState } from "react";
+import { createContext, MutableRefObject, PropsWithChildren, SetStateAction, useRef, useState } from "react";
 
 type RegisterType = {
     user: {
@@ -21,7 +21,8 @@ type RegisterType = {
     response?:{
         success:boolean,
         message:string;
-    }
+    },
+    image?: any;
 };
 
 const defaultValue: RegisterType = {

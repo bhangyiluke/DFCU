@@ -1,5 +1,5 @@
 import { staffService } from "@/services/staff.service";
-import { Grid, TextField, Button, Box, CircularProgress, Snackbar, Alert, SnackbarCloseReason, SnackbarOrigin } from "@mui/material";
+import { Grid, TextField, Button, Box, CircularProgress, Snackbar, Alert, SnackbarCloseReason, SnackbarOrigin, imageListClasses, Paper } from "@mui/material";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 // import { DateField } from '@mui/x-date-pickers/DateField';
 import SendIcon from '@mui/icons-material/Send';
@@ -9,10 +9,9 @@ import { ImageRounded } from "@mui/icons-material";
 import { RegisterContext } from "@/context/RegisterContext";
 
 export default () => {
-    // const [fileName, setFileName] = useState();
     const { state, setState } = useContext(RegisterContext);
     const [data, setData] = useState<{
-        fileName?: string,
+        file?: any,
         error?: string,
         loading?: boolean
     }>();
@@ -21,7 +20,7 @@ export default () => {
 
     const handleFileChanged = (e: any) => {
         var file = e.target.files[0];
-        file && setData({ fileName: file.name });
+        !!file && !!setData && setData(old => ({ ...old, file:file }));;
 
     }
 
@@ -87,9 +86,12 @@ export default () => {
                 <Grid item sx={{ my: 2 }} xs={12}>
                     <Button variant="outlined" component="label" color="primary" fullWidth>
                         {" "}
-                        <ImageRounded /> {data?.fileName || "Upload a photo"}
+                        <ImageRounded /> {data?.file?.name || "Upload a photo"}
                         <input type="file" name="idPhoto" accept="images/**" onChange={handleFileChanged} hidden />
                     </Button>
+                </Grid>
+                <Grid item sx={{placeItems:"center"}} xs={12}>
+                    {!!data?.file && <Paper sx={{height:200,width:200,mx:"auto"}} component="img" src={URL.createObjectURL(data?.file)}/>}
                 </Grid>
                 <Grid item xs={12}>
                     <Button

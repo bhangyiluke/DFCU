@@ -85,11 +85,12 @@ public class StaffService {
         }
         
         if (file != null) {
+            logger.info(file.getOriginalFilename()+":-"+file.getSize());
             staff.setIdPhoto(file.getBytes());
         }
         // updateMapper.updateValues(staff,patch);
         staffRepository.save(staff);
-        return ResponseEntity.ok(staff);
+        return ResponseEntity.ok(new ApiResponse(true, String.format("Staff member %s updated successfully",staff.getEmployeeNo())));
     }
 
     // Filter on a soft deleted item

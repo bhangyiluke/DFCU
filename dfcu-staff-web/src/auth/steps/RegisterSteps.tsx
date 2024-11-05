@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { MutableRefObject, useContext, useEffect, useState } from "react";
 import { Fragment } from "react/jsx-runtime";
 import {
     Alert,
@@ -21,6 +21,8 @@ const anchorOrigin: SnackbarOrigin = {
     vertical: "bottom",
     horizontal: "right",
 };
+
+// type StepsProps = { image: MutableRefObject<undefined> };
 
 export default () => {
     const { state } = useContext(RegisterState);
@@ -74,7 +76,7 @@ export default () => {
             )}
             {state.response && (
                 <Fragment>
-                    <Snackbar sx={{maxWidth:"sm"}}
+                    <Snackbar sx={{ maxWidth: "sm" }}
                         open={open && state.response?.success}
                         autoHideDuration={6000}
                         onClose={handleClose}
@@ -89,7 +91,7 @@ export default () => {
                             {state.response?.message}
                         </Alert>
                     </Snackbar>
-                    <Snackbar sx={{maxWidth:"sm"}}
+                    <Snackbar sx={{ maxWidth: "sm" }}
                         open={open && !state.response?.success}
                         autoHideDuration={6000}
                         onClose={handleClose}

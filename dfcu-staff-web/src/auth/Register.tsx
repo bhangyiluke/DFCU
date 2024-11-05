@@ -38,7 +38,7 @@ const Register = () => {
                             Register
                         </Typography>
                         <Completed />
-                        <RegisterSteps />
+                        <RegisterSteps/>
                         <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
                             <Grid item>
                                 <Button

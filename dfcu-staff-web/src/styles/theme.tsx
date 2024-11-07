@@ -13,6 +13,16 @@ const theme = createTheme({
                 LinkComponent: LinkBehavior,
             },
         },
+        MuiTextField:{
+            defaultProps:{
+                size:"small"
+            }
+        },
+        MuiAlert:{
+            defaultProps:{
+                variant:"filled"
+            }
+        }
     },
 });
 

@@ -27,15 +27,7 @@ type RegisterType = {
 
 const defaultValue: RegisterType = {
     user: {
-        username: "bhangyiluke",
-        email: "bhangyiluke@gmail.com",
-        password: "bhangyiluke",
-        confirmPassword: "bhangyiluke",
         birthdate: new Date(),
-        bio: "bhangyiluke",
-        website: "bhangyiluke",
-        acceptTerms: false,
-        newsletter: false,
         token:""
     },
     activeStep: 0

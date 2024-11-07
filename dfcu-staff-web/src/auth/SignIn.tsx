@@ -46,9 +46,7 @@ const SignIn = () => {
         //         acc[key] = value;
         //         return acc;
         //     },
-        //     Object({}),
         // );
-        // console.log(data);
     };
     return (
         <Container maxWidth="xs">
@@ -137,7 +135,6 @@ const SignIn = () => {
                 <Alert
                     onClose={()=>setError(undefined)}
                     severity="error"
-                    variant="filled"
                     sx={{ width: "100%" }}
                 >
                     {error}

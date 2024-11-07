@@ -85,7 +85,6 @@ export default () => {
                         <Alert
                             onClose={handleClose}
                             severity="success"
-                            variant="filled"
                             sx={{ width: "100%" }}
                         >
                             {state.response?.message}
@@ -100,7 +99,6 @@ export default () => {
                         <Alert
                             onClose={handleClose}
                             severity="error"
-                            variant="filled"
                             sx={{ width: "100%" }}
                         >
                             {state.response?.message}

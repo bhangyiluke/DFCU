@@ -87,11 +87,11 @@ export default () => {
                     <Button variant="outlined" component="label" color="primary" fullWidth>
                         {" "}
                         <ImageRounded /> {data?.file?.name || "Upload a photo"}
-                        <input type="file" name="idPhoto" accept="images/**" onChange={handleFileChanged} hidden />
+                        <input type="file" id="idPhoto" name="idPhoto" accept="image/*" onChange={handleFileChanged} hidden/>
                     </Button>
                 </Grid>
                 <Grid item sx={{placeItems:"center"}} xs={12}>
-                    {!!data?.file && <Paper sx={{height:200,width:200,mx:"auto"}} component="img" src={URL.createObjectURL(data?.file)}/>}
+                    {!!data?.file && <Paper sx={{height:200,maxWidth:"100%",mx:"auto"}} component="img" src={URL.createObjectURL(data?.file)}/>}
                 </Grid>
                 <Grid item xs={12}>
                     <Button

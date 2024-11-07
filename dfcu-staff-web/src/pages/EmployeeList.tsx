@@ -83,11 +83,7 @@ const EmployeeList = () => {
                     checkboxSelection
                 />
             </Paper>
-            <Stack spacing={2} sx={{ width: "100%", mx: "auto" }}>
-                {
-                    open && <Employee data={employee} handleUpdated={handleClose}/>
-                }
-            </Stack>
+            <Employee data={employee} open={open} handleClose={handleClose}/>
         </Stack>
     );
 };

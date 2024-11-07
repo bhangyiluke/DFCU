@@ -6,9 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +13,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 // import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import ug.dfcu.staff.exception.ResourceNotFoundException;
 import ug.dfcu.staff.model.OtpCode;
 import ug.dfcu.staff.repository.OtpRepository;
+import ug.dfcu.staff.utils.SendEmail;
 import ug.dfcu.staff.utils.StaffUtils;
 
 // import net.bytebuddy.utility.RandomString;
@@ -32,22 +29,16 @@ public class OtpService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
-    OtpRepository otpRepository;
+    SendEmail sendEmail;
 
     @Autowired
-    JavaMailSender mailSender;
+    OtpRepository otpRepository;
 
     @Value("${ug.dfcu.staff.otpLength}")
     Integer otpLength;
 
     @Value("${ug.dfcu.staff.otpExpirationInMs}")
     Integer otpExpirationInMs;
-
-    @Value("${ug.dfcu.staff.support.email}")
-    String supportMail;
-
-    @Value("${ug.dfcu.staff.support.name}")
-    String supportName;
 
     /*
      * Generate the given length of AlphaNumeric and send it by email
@@ -71,7 +62,7 @@ public class OtpService {
         otpRepository.save(oneTimePassword);
 
         //Send message in asycn mode to gain faster return from token generation process.
-        sendTokenEmail(email, otp);
+        sendEmail.sendTokenEmail(email, otp);
 
     }
 
@@ -86,37 +77,5 @@ public class OtpService {
 
     private boolean checkTokenExpiry(OtpCode oneTimePassword) {
         return Calendar.getInstance().before(oneTimePassword.getOtpExpiryTime());
-    }
-
-    @Async
-    public void sendTokenEmail(String email, String otp) {
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message);
-
-            Integer expiry = otpExpirationInMs;// 60 / 60;
-
-            helper.setFrom(supportMail, supportName);
-            helper.setTo(email);
-
-            String subject = "Here's your One Time Password (OTP) - Expire in 5 minutes!";
-
-            String content = String.format("<p>Hello %s </p>"
-                    + "<p>For security reason, you're required to use the following "
-                    + "One Time Password to ensure authenticity:</p>"
-                    + "<p><b> %s </b></p>"
-                    + "<br>"
-                    + "<p>Note: this OTP is set to expire in %s minutes.</p>", email, otp, expiry);
-
-            helper.setSubject(subject);
-            helper.setText(content, true);
-            // TODO: Unblock this to facilitate sending actual mail
-            mailSender.send(message);
-        } catch (Exception e) {
-            logger.info("**********");
-            logger.info(String.format("User requested otp: %s", otp));
-            logger.info("**********");
-            logger.error(e.getLocalizedMessage(), e);
-        }
-    }
+    }    
 }
